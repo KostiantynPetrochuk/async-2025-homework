@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // Task: refactor callback hell code with named callbacks
 // Restriction: you can change code only in "Usage" section
@@ -6,11 +6,11 @@
 const getPurchase = (callback) =>
   callback({
     Electronics: [
-      { name: "Laptop", price: 1500 },
-      { name: "Keyboard", price: 100 },
-      { name: "HDMI cable", price: 10 },
+      { name: 'Laptop', price: 1500 },
+      { name: 'Keyboard', price: 100 },
+      { name: 'HDMI cable', price: 10 },
     ],
-    Textile: [{ name: "Bag", price: 50 }],
+    Textile: [{ name: 'Bag', price: 50 }],
   });
 
 const iterateGroups = (order, callback) => {
@@ -50,33 +50,31 @@ const budget = (limit) => {
 
 const wallet = budget(1650);
 
-const handlePurchase = (purchase) => {
-  const state = { amount: 0 };
-  iterateGroups(purchase, handleGroup(state));
+const handlers = {
+  handlePurchase: (purchase) => {
+    const state = { amount: 0 };
+    iterateGroups(purchase, handlers.handleGroup(state));
+  },
+  handleGroup: (state) => (group) => {
+    groupTotal(group, handlers.handleSubtotal(state));
+  },
+  handleSubtotal: (state) => (subtotal) => {
+    state.subtotal = subtotal;
+    wallet.withdraw(subtotal, handlers.handleWithdraw(state));
+  },
+  handleWithdraw: (state) => (success) => {
+    if (success) state.amount += state.subtotal;
+    state.success = success;
+    wallet.rest(handlers.handleRest(state));
+  },
+  handleRest: (state) => (balance) => {
+    console.log({
+      success: state.success,
+      amount: state.amount,
+      subtotal: state.subtotal,
+      balance,
+    });
+  },
 };
 
-const handleGroup = (state) => (group) => {
-  groupTotal(group, handleSubtotal(state));
-};
-
-const handleSubtotal = (state) => (subtotal) => {
-  state.subtotal = subtotal;
-  wallet.withdraw(subtotal, handleWithdraw(state));
-};
-
-const handleWithdraw = (state) => (success) => {
-  if (success) state.amount += state.subtotal;
-  state.success = success;
-  wallet.rest(handleRest(state));
-};
-
-const handleRest = (state) => (balance) => {
-  console.log({
-    success: state.success,
-    amount: state.amount,
-    subtotal: state.subtotal,
-    balance,
-  });
-};
-
-getPurchase(handlePurchase);
+getPurchase(handlers.handlePurchase);

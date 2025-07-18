@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "lint": "eslint . && prettier -c \"**/*.js\"",
+    "fix": "eslint . --fix || prettier --write \"**/*.js\"",
+    "format": "prettier --write \"**/*.js\"",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "eslint": "^9.31.0",
+    "eslint-config-prettier": "^10.1.5",
+    "prettier": "^3.6.2"
+  },
+  "dependencies": {
+    "eslint-config-metarhia": "^9.1.2"
+  }
+}

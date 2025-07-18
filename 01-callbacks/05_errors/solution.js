@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // Task: rewrite error handling to use callback-last-error-first
 // contract to return errors instead of throwing them.
@@ -13,11 +13,11 @@ const MAX_PURCHASE = 2000;
 const calculateSubtotal = (goods, callback) => {
   let amount = 0;
   for (const item of goods) {
-    if (typeof item.name !== "string") {
-      const err = new Error("Noname in item in the bill");
+    if (typeof item.name !== 'string') {
+      const err = new Error('Noname in item in the bill');
       return void err;
     }
-    if (typeof item.price !== "number") {
+    if (typeof item.price !== 'number') {
       const err = new Error(`${item.name} price expected to be number`);
       return void err;
     }
@@ -27,12 +27,12 @@ const calculateSubtotal = (goods, callback) => {
     }
     amount += item.price;
   }
-  return void callback(err, amount);
+  return void callback(null, amount);
 };
 
 const calculateTotal = (order, callback) => {
   const expenses = new Map();
-  let total = 0;
+  const total = 0;
   const amounts = [];
   const errorsArr = [];
   for (const groupName in order) {
@@ -64,11 +64,11 @@ const calculateTotal = (order, callback) => {
 
 const purchase = {
   Electronics: [
-    { name: "Laptop", price: 1500 },
-    { name: "Keyboard", price: 100 },
-    { name: "HDMI cable" },
+    { name: 'Laptop', price: 1500 },
+    { name: 'Keyboard', price: 100 },
+    { name: 'HDMI cable' },
   ],
-  Textile: [{ name: "Bag", price: 50 }, { price: 20 }],
+  Textile: [{ name: 'Bag', price: 50 }, { price: 20 }],
 };
 
 console.log({ purchase });

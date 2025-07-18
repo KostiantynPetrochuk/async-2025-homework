@@ -1,14 +1,14 @@
-"use strict";
+'use strict';
 
 // Task: fix given code to prevent removing items from
 // `electronics` array and to stop iteration after last item
 
-import { setInterval } from "node:timers/promises";
+const { setInterval } = require('node:timers/promises');
 
 const electronics = [
-  { name: "Laptop", price: 1500 },
-  { name: "Keyboard", price: 100 },
-  { name: "HDMI cable", price: 10 },
+  { name: 'Laptop', price: 1500 },
+  { name: 'Keyboard', price: 100 },
+  { name: 'HDMI cable', price: 10 },
 ];
 
 const main = async () => {
@@ -18,7 +18,7 @@ const main = async () => {
   const iter = setInterval(delay, electronics);
   for await (const items of iter) {
     if (currentIndex > maxIndex) {
-      console.log("Counting ended.");
+      console.log('Counting ended.');
       break;
     }
     console.log({ item: items[currentIndex] });
