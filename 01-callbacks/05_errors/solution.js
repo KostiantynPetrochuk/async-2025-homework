@@ -12,23 +12,22 @@ const MAX_PURCHASE = 2000;
 
 const calculateSubtotal = (goods, callback) => {
   let amount = 0;
-  let err = null;
   for (const item of goods) {
     if (typeof item.name !== "string") {
-      err = new Error("Noname in item in the bill");
-      break;
+      const err = new Error("Noname in item in the bill");
+      return void err;
     }
     if (typeof item.price !== "number") {
-      err = new Error(`${item.name} price expected to be number`);
-      break;
+      const err = new Error(`${item.name} price expected to be number`);
+      return void err;
     }
     if (item.price < 0) {
-      err = new Error(`Negative price for ${item.name}`);
-      break;
+      const err = new Error(`Negative price for ${item.name}`);
+      return void err;
     }
     amount += item.price;
   }
-  callback(err, amount);
+  return void callback(err, amount);
 };
 
 const calculateTotal = (order, callback) => {
@@ -42,24 +41,22 @@ const calculateTotal = (order, callback) => {
       if (err) {
         const errDesc = `Failed to calculate subtotal for group "${groupName}"`;
         const currentErr = new Error(errDesc, { cause: err });
-        errorsArr.push(currentErr);
-        return;
+        return void errorsArr.push(currentErr);
       }
       amounts.push(amount);
       expenses.set(groupName, amount);
     });
-  }
-  for (const key in amounts) {
-    total += amounts[key];
     if (total > MAX_PURCHASE) {
-      errorsArr.push(new Error("Total is above the limit"));
+      errorsArr.push(new Error('Total is above the limit'));
+      break;
     }
   }
-  let errors = null;
   if (errorsArr?.length) {
-    errors = new AggregateError(errorsArr, "Failed to calculete total amount.");
+    const cause = new AggregateError(errorsArr, 'Caused by');
+    const error = new Error('Can not calculate total', { cause });
+    return void callback(error);
   }
-  return callback(errors, {
+  return void callback(null, {
     total,
     expenses,
   });

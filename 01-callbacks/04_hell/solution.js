@@ -55,36 +55,28 @@ const handlePurchase = (purchase) => {
   iterateGroups(purchase, handleGroup(state));
 };
 
-const handleGroup = (state) => {
-  return (group) => {
-    groupTotal(group, handleSubtotal(state));
-  };
+const handleGroup = (state) => (group) => {
+  groupTotal(group, handleSubtotal(state));
 };
 
-const handleSubtotal = (state) => {
-  return (subtotal) => {
-    state.subtotal = subtotal;
-    wallet.withdraw(subtotal, handleWithdraw(state));
-  };
+const handleSubtotal = (state) => (subtotal) => {
+  state.subtotal = subtotal;
+  wallet.withdraw(subtotal, handleWithdraw(state));
 };
 
-const handleWithdraw = (state) => {
-  return (success) => {
-    if (success) state.amount += state.subtotal;
-    state.success = success;
-    wallet.rest(handleRest(state));
-  };
+const handleWithdraw = (state) => (success) => {
+  if (success) state.amount += state.subtotal;
+  state.success = success;
+  wallet.rest(handleRest(state));
 };
 
-const handleRest = (state) => {
-  return (balance) => {
-    console.log({
-      success: state.success,
-      amount: state.amount,
-      subtotal: state.subtotal,
-      balance,
-    });
-  };
+const handleRest = (state) => (balance) => {
+  console.log({
+    success: state.success,
+    amount: state.amount,
+    subtotal: state.subtotal,
+    balance,
+  });
 };
 
 getPurchase(handlePurchase);

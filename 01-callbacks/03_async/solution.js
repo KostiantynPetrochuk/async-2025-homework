@@ -22,8 +22,6 @@ const electronics = [
   { name: "HDMI cable", price: 10 },
 ];
 
-const launchInterval = (interval, callback) => setInterval(callback, interval);
-
 const total = (items, callback) => {
   const localItems = [...items];
   let money = 0;
@@ -31,8 +29,7 @@ const total = (items, callback) => {
     const item = localItems.shift();
     if (!item) {
       clearInterval(timerId);
-      callback(null, money);
-      return;
+      return void callback(null, money);
     }
     console.log({ check: item });
     const { price } = item;
@@ -40,12 +37,12 @@ const total = (items, callback) => {
     if (isNegativePrice) {
       const err = new Error("Items contains negative price");
       clearInterval(timerId);
-      return callback(err, money);
+      return void callback(err, money);
     }
     money += price;
   };
   const interval = 1000;
-  const timerId = launchInterval(interval, procesItem);
+  const timerId = setInterval(procesItem, interval)
 };
 const printMoney = (err, money) => {
   if (err) {

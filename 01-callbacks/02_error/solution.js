@@ -19,7 +19,7 @@ const total = (items, callback) => {
     }
     money += price;
   }
-  callback(null, money);
+  return callback(null, money);
 };
 const printMoney = (err, money) => {
   if (err) {
