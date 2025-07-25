@@ -3,9 +3,10 @@
 // Task: rewrite EventTarget to EventEmitter
 // Hint: you need Node.js >= v19.0.0
 
-const purchase = new EventTarget();
+const EventEmitter = require('node:events');
+const purchase = new EventEmitter();
 
-purchase.addEventListener('buy', (event) => {
+purchase.on('buy', (event) => {
   const bought = event.detail;
   console.log({ bought });
 });
@@ -18,5 +19,5 @@ const electronics = [
 
 for (const item of electronics) {
   const data = { detail: item };
-  purchase.dispatchEvent(new CustomEvent('buy', data));
+  purchase.emit('buy', data);
 }
