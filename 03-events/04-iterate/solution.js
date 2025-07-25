@@ -13,8 +13,14 @@ const electronics = [
   { name: 'HDMI cable', price: 10 },
 ];
 
-const iterator = on(purchase, 'add');
-console.log({ iterator });
+const main = async () => {
+  const iterator = on(purchase, 'add');
+  for await (const [item] of iterator) {
+    console.log(item);
+  }
+};
+
+main();
 
 for (const item of electronics) {
   purchase.emit('add', item);

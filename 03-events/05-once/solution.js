@@ -24,8 +24,11 @@ application.on('buy', (items) => {
 });
 
 const main = async () => {
-  const result = await once(application, 'purchase');
-  console.log(result);
+  // const [result] = await once(application, 'purchase');
+  // console.log(result);
+  application.once('purchase', (result) => {
+    console.log(result);
+  });
 };
 
 main();

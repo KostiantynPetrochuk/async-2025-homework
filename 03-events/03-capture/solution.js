@@ -5,7 +5,7 @@
 
 const EventEmitter = require('node:events');
 
-const purchase = new EventEmitter();
+const purchase = new EventEmitter({ captureRejections: true });
 
 const electronics = [
   { name: 'Laptop', price: 1500 },
@@ -18,6 +18,10 @@ purchase.on('add', async (item) => {
   if (item.price < 0) {
     throw new Error('Negative price');
   }
+});
+
+purchase.on('error', (error) => {
+  console.log(error.message);
 });
 
 for (const item of electronics) {
