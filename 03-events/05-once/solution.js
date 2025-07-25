@@ -5,7 +5,7 @@
 // Compare `events.once` with `EventEmitter.prototype.once`
 // and swap them in the following example:
 
-const { EventEmitter, once } = require('node:events');
+const { EventEmitter /*, once */ } = require('node:events');
 
 const application = new EventEmitter();
 
