@@ -6,12 +6,14 @@
 const iterate = (items) => {
   let index = 0;
   const chain = {
-    next: (callback) => {
-      if (index < items.length) {
-        callback(items[index++]);
-      }
-      return chain;
-    },
+    next: () =>
+      new Promise((resolve, reject) => {
+        if (index < items.length) {
+          resolve(items[index++]);
+        } else {
+          reject(undefined);
+        }
+      }),
   };
   return chain;
 };
@@ -23,13 +25,15 @@ const electronics = [
 ];
 
 // Use await syntax to get items
-iterate(electronics)
-  .next((item) => {
-    console.log(item);
-  })
-  .next((item) => {
-    console.log(item);
-  })
-  .next((item) => {
-    console.log(item);
-  });
+
+const main = async () => {
+  const items = iterate(electronics);
+  const firstItem = await items.next();
+  console.log(firstItem);
+  const secondItem = await items.next();
+  console.log(secondItem);
+  const thirdItem = await items.next();
+  console.log(thirdItem);
+};
+
+main();

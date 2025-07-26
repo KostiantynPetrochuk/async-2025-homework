@@ -9,11 +9,11 @@ const iterate = (items) => {
   let index = 0;
   return {
     next: () =>
-      new Promise((fulfill) => {
+      new Promise((resolve, reject) => {
         if (index < items.length) {
-          return fulfill(items[index++]);
+          return resolve(items[index++]);
         }
-        throw new Error('No more items to iterate');
+        reject(new Error('No more items to iterate'));
       }),
   };
 };
@@ -25,15 +25,19 @@ const electronics = [
 ];
 
 const main = async () => {
-  const items = iterate(electronics);
-  const item1 = await items.next();
-  console.log(item1);
-  const item2 = await items.next();
-  console.log(item2);
-  const item3 = await items.next();
-  console.log(item3);
-  const item4 = await items.next();
-  console.log(item4);
+  try {
+    const items = iterate(electronics);
+    const firstItem = await items.next();
+    console.log(firstItem);
+    const secondItem = await items.next();
+    console.log(secondItem);
+    const thirdItem = await items.next();
+    console.log(thirdItem);
+    const fourthItem = await items.next();
+    console.log(fourthItem);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 main();
