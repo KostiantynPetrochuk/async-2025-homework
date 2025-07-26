@@ -25,3 +25,10 @@ const formatMoney = (x) => parseFloat(x.toFixed(2));
 const sum = (a, b) => a + b;
 
 // Write solution below
+
+Promise.all(prices)
+  .then((result) => result.map(formatMoney))
+  .then((result) => result.reduce(sum, 0))
+  .then((res) => console.log(res))
+  .catch((error) => console.error(error))
+  .finally(() => console.log('Done!'));

@@ -17,7 +17,13 @@ const total = (items, callback) => {
   callback(null, result);
 };
 
-// const totalAsync = (items) => new Promise...
+const totalAsync = (items) =>
+  new Promise((resolve, reject) => {
+    total(items, (error, money) => {
+      if (error) reject(error);
+      else resolve(money);
+    });
+  });
 
 const electronics = [
   { name: 'Laptop', price: 1500 },
@@ -30,3 +36,11 @@ total(electronics, (error, money) => {
   if (error) console.error({ error });
   else console.log({ money });
 });
+
+totalAsync(electronics)
+  .then((money) => {
+    console.log({ money });
+  })
+  .catch((error) => {
+    console.error({ error });
+  });
