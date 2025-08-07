@@ -16,6 +16,9 @@ const electronics = [
 const total = signal(0);
 
 effect(() => {
-  console.log(electronics);
-  console.log({ total });
+  console.log(`Total: ${total.value}`);
 });
+
+for (const item of electronics) {
+  total.value += item.price;
+}

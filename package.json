@@ -11,6 +11,8 @@
     "prettier": "^3.6.2"
   },
   "dependencies": {
+    "@angular/core": "^20.1.6",
+    "@preact/signals-core": "^1.11.0",
     "eslint-config-metarhia": "^9.1.2"
   }
 }

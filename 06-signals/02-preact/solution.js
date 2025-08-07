@@ -14,13 +14,12 @@ const electronics = [
 
 const items = signal(electronics);
 
-const total = (items) => {
+const total = computed(() => {
   let result = 0;
-  for (const item of items) {
+  for (const item of items.value) {
     result += item.price;
   }
   return result;
-};
+});
 
-console.log(`Total: ${total(items.value)}`);
-console.log(computed);
+console.log(`Total: ${total.value}`);

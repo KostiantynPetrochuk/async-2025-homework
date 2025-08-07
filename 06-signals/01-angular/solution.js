@@ -1,4 +1,5 @@
-import { signal, computed } from '@angular/core';
+'use strict';
+const { signal, computed } = require('@angular/core');
 
 // npm install @angular/core --save
 // yarn add @angular/core
@@ -14,13 +15,13 @@ const electronics = [
 
 const items = signal(electronics);
 
-const total = (goods) => {
+const total = computed(() => {
   let result = 0;
-  for (const item of goods) {
+  const currentItems = items();
+  for (const item of currentItems) {
     result += item.price;
   }
   return result;
-};
+});
 
-console.log(`Total: ${total(items())}`);
-console.log(computed);
+console.log(`Total: ${total()}`);
