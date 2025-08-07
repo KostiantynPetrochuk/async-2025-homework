@@ -26,12 +26,7 @@ const electronics = [
 // Usage block: change just following code
 
 const main = async () => {
-  let money = 0;
-  try {
-    money = await total(electronics);
-  } catch {
-    // Empty block
-  }
+  const money = await total(electronics).catch(() => 0);
   console.log({ money });
 };
 
