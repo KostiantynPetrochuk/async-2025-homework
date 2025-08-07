@@ -19,8 +19,11 @@ const electronics = [
 
 const total = signal(0);
 
-effect(() => {
-  console.log(electronics);
-  console.log({ total });
-  console.log({ PURCHASE_LIMIT });
+const dispose = effect(() => {
+  console.log(`Total: ${total.value}`);
 });
+
+for (const item of electronics) {
+  if (total.value >= PURCHASE_LIMIT) dispose();
+  total.value += item.price;
+}
