@@ -5,23 +5,23 @@
 //   const total = await new Total(electronics);
 //   console.log({ total });
 
-class Basket {
+class Total {
   #items = null;
 
   constructor(items) {
     this.#items = items;
+    return this.total();
   }
 
-  total(callback) {
+  async total() {
     let result = 0;
     for (const item of this.#items) {
       if (item.price < 0) {
-        callback(new Error('Negative price is not allowed'));
-        return;
+        throw new Error('Negative price is not allowed');
       }
       result += item.price;
     }
-    callback(null, result);
+    return result;
   }
 }
 
@@ -31,8 +31,13 @@ const electronics = [
   { name: 'HDMI cable', price: 10 },
 ];
 
-const basket = new Basket(electronics);
-basket.total((error, money) => {
-  if (error) console.error({ error });
-  else console.log({ money });
-});
+const main = async () => {
+  try {
+    const total = await new Total(electronics);
+    console.log({ total });
+  } catch (error) {
+    console.error({ error });
+  }
+};
+
+main();

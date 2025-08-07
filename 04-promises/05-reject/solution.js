@@ -11,7 +11,7 @@ const iterate = (items) => {
     next: () =>
       new Promise((resolve, reject) => {
         if (index < items.length) {
-          return resolve(items[index++]);
+          resolve(items[index++]);
         }
         reject(new Error('No more items to iterate'));
       }),

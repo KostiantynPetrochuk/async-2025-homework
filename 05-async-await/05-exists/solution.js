@@ -7,14 +7,8 @@ const fs = require('node:fs');
 
 // Implementation
 
-const fileExists = async (name) => {
-  try {
-    await fs.promises.access(name);
-    return true;
-  } catch {
-    return false;
-  }
-};
+const checkRes = [() => true, () => false];
+const fileExists = (name) => fs.promises.access(name).then(...checkRes);
 
 // Usage
 

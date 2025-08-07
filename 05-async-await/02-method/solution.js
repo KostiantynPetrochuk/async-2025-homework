@@ -9,16 +9,15 @@ class Basket {
     this.#items = items;
   }
 
-  total(callback) {
+  async total() {
     let result = 0;
     for (const item of this.#items) {
       if (item.price < 0) {
-        callback(new Error('Negative price is not allowed'));
-        return;
+        throw new Error('Negative price is not allowed');
       }
       result += item.price;
     }
-    callback(null, result);
+    return result;
   }
 }
 
@@ -28,8 +27,14 @@ const electronics = [
   { name: 'HDMI cable', price: 10 },
 ];
 
-const basket = new Basket(electronics);
-basket.total((error, money) => {
-  if (error) console.error({ error });
-  else console.log({ money });
-});
+const main = async () => {
+  try {
+    const basket = new Basket(electronics);
+    const money = await basket.total();
+    console.log({ money });
+  } catch (error) {
+    console.error({ error });
+  }
+};
+
+main();

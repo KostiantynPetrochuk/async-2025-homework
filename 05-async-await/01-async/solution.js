@@ -3,17 +3,18 @@
 // Task: rewrite `total` from callbacks contract to async/await
 // Hint: do not forget to catch errors with try/catch block
 
-const total = (items, callback) => {
-  let result = 0;
-  for (const item of items) {
-    if (item.price < 0) {
-      callback(new Error('Negative price is not allowed'));
-      return;
+const total = (items) =>
+  new Promise((resolve, reject) => {
+    let result = 0;
+    for (const item of items) {
+      if (item.price < 0) {
+        reject(new Error('Negative price is not allowed'));
+        return;
+      }
+      result += item.price;
     }
-    result += item.price;
-  }
-  callback(null, result);
-};
+    resolve(result);
+  });
 
 const electronics = [
   { name: 'Laptop', price: 1500 },
@@ -21,7 +22,13 @@ const electronics = [
   { name: 'HDMI cable', price: 10 },
 ];
 
-total(electronics, (error, money) => {
-  if (error) console.error({ error });
-  else console.log({ money });
-});
+const main = async () => {
+  try {
+    const result = await total(electronics);
+    console.log(result);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+main();
